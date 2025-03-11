@@ -54,3 +54,24 @@
     </section>
   </main>
 @endsection
+@push('scripts')
+    <script>
+      @if (session('success')) 
+        Swal.fire({
+          title: 'Exito!',
+          text: '{{session('success')}}',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      @endif
+      @if (session('error')) 
+        Swal.fire({
+          title: 'Exito!',
+          text: '{{session('success')}}',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      @endif
+    </script>
+@endpush
+

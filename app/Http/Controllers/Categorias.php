@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,11 +33,17 @@ class Categorias extends Controller
      */
     public function store(Request $request)
     {
-        $item = new Categoria();
-        $item ->user_id = Auth::user()->id;
-        $item->nombre = $request->nombre;
-        $item->save();
-        return to_route('categorias');
+        try {
+            $item = new Categoria();
+            $item ->user_id = Auth::user()->id;
+            $item->nombre = $request->nombre;
+            $item->save();
+            return to_route('categorias')->with('success', 'Categoria agregada!');
+        } catch (Exception $e) {
+            return to_route('categorias')->with('error', 'No se pudo guardar!'.$e->getMessage());
+
+        }
+        
     }
 
     /**
@@ -64,10 +71,14 @@ class Categorias extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $item = Categoria::find($id);
-        $item->nombre = $request->nombre;
-        $item->save();
-        return to_route('categorias');
+        try {
+            $item = Categoria::find($id);
+            $item->nombre = $request->nombre;
+            $item->save();
+            return to_route('categorias')->with('success', 'Categoria actualizada!');
+        } catch (Exception $e) {
+            return to_route('categorias')->with('error', 'No se pudo actualizar!'.$e->getMessage());  
+        }
     }
 
     /**
@@ -75,8 +86,13 @@ class Categorias extends Controller
      */
     public function destroy(string $id)
     {
-        $item = Categoria::find($id);
-        $item->delete();
-        return to_route('categorias');
+        try {
+            $item = Categoria::find($id);
+            $item->delete();
+            return to_route('categorias')->with('success', 'Categoria eliminada!');
+        } catch (Exception $e) {
+            return to_route('categorias')->with('error', 'No se pudo eliminar!'.$e->getMessage());
+            
+        }
     }
 }

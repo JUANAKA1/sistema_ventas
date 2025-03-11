@@ -19,7 +19,7 @@
                 Administrar las cuentas y roles de usuarios.
               </p> 
               <!-- Table with stripped rows -->
-              <a href="" class="btn btn-primary" >
+              <a href="{{ route("usuarios.create") }}" class="btn btn-primary" >
                 <i class="fa-solid fa-user-plus"></i>
                 Agregar nuevo usuario</a>
               <hr>
@@ -29,38 +29,13 @@
                     <th>Email</th>
                     <th>Nombre</th>
                     <th>Rol</th>
-                    <th>Cambio de contrseña</th>
+                    <th>Cambio de contraseña</th>
                     <th>Activo</th>
                     <th >Acciones</th>
                   </tr>
                 </thead>
-                <tbody>
-                  @foreach ($items as $item)
-                    <tr>
-                      <td>{{$item->email}}</td>
-                      <td>{{$item->name}}</td>
-                      <td>{{$item->rol}}</td>
-                      <td>
-                        <a href="#" class="btn btn-secondary " >
-                          <i class="fa-solid fa-user-lock"></i>Cambiar</a>
-                      </td>
-                      </td>
-                      <td>
-                        @if ($item->activo)
-                            <span class="badge bg-success">Activo</span>
-                            @else
-                            <span class="badge bg-warning text-dark">Inactivo</span>
-
-                        @endif
-                      </td>
-                      <td>
-                        <a href="#" class="btn btn-warning " > <i class="fa-solid fa-user-pen"></i>
-                          </i> Editar</a>
-                        <a href="#" class="btn btn-danger " >
-                          <i class="fa-solid fa-user-gear"></i>  Eliminar</a>
-                      </td>
-                    </tr>
-                    @endforeach
+                <tbody id="tbody-usuarios">
+                  @include('modules.usuarios.tbody')
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->
@@ -72,4 +47,83 @@
       </div>
     </section>
   </main>
+  @include('modules.usuarios.modal_cambiar_password')
 @endsection
+
+@push('scripts')
+  <script>
+
+function recargar_tbody(){
+      $.ajax({
+        type: "GET",
+        url: "{{ route('usuarios.tbody') }}",
+        success: function(respuesta) {
+          // console.log(respuesta);
+          
+        }
+      });
+    }
+    function cambiar_estado(id, estado) {
+      $.ajax({
+        type: "GET",
+        url: "usuarios/cambiar-estado/" +  id + "/" + estado,
+        success: function(respuesta) {
+          if (respuesta == 1) {
+            alert("Cambio de estado correcto!");
+            recargar_tbody();
+          }
+        }
+      });
+    }
+    function agregar_id_usuario(id) {
+      $("#id_usuario").val(id);
+      
+    }
+    function cambio_password() {
+      let id = $("#id_usuario").val();
+      let password = $("#password").val();
+
+      $.ajax({
+        type: "GET",
+        url: "usuarios/cambiar-password/" + id + "/" + password,
+        success: function(respuesta) {
+          if (respuesta == 1) {
+            alert("Cambio correcto!");
+            $("#frmPassword")[0].reset();
+          }
+        }
+        
+      });
+      return false;
+      
+    }
+
+    $(document).ready(function() {
+      $('.form-check-input').on("change", function(){
+        let id = $(this).attr("id");
+        let estado = $(this).is(":checked") ? 1 : 0;
+        cambiar_estado(id, estado);
+      });
+    });
+  </script>
+@endpush
+@push('scripts')
+    <script>
+      @if (session('success')) 
+        Swal.fire({
+          title: 'Exito!',
+          text: '{{session('success')}}',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      @endif
+      @if (session('error')) 
+        Swal.fire({
+          title: 'Exito!',
+          text: '{{session('success')}}',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      @endif
+    </script>
+@endpush
