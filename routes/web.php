@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Categorias;
-use App\Http\Controllers\Clientes;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DetalleVentas;
 use App\Http\Controllers\Productos;
+use App\Http\Controllers\Proveedores;
 use App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Ventas;
 use Illuminate\Support\Facades\Route;
@@ -45,8 +45,15 @@ Route::prefix('productos')->middleware('auth')->group(function(){
     Route::get('/', [Productos::class, 'index'])->name('productos');
 });
 
-Route::prefix('clientes')->middleware('auth')->group(function(){
-    Route::get('/', [Clientes::class, 'index'])->name('clientes');
+Route::prefix('proveedores')->middleware('auth')->group(function(){
+    Route::get('/', [Proveedores::class, 'index'])->name('proveedores');
+    Route::get('/create', [Proveedores::class, 'create'])->name('proveedores.create');
+    Route::post('/store', [Proveedores::class, 'store'])->name('proveedores.store');
+    Route::get('/show/{id}', [Proveedores::class,'show'])->name('proveedores.show');
+    Route::delete('/destroy/{id}', [Proveedores::class, 'destroy'])->name('proveedores.destroy');
+    Route::get('/edit/{id}', [Proveedores::class, 'edit'])->name('proveedores.edit');
+    Route::put('/update/{id}', [Proveedores::class, 'update'])->name('proveedores.update');
+
 });
 
 Route::prefix('usuarios')->middleware('auth')->group(function(){

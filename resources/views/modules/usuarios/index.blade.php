@@ -69,8 +69,20 @@ function recargar_tbody(){
         url: "usuarios/cambiar-estado/" +  id + "/" + estado,
         success: function(respuesta) {
           if (respuesta == 1) {
-            alert("Cambio de estado correcto!");
+            Swal.fire({
+              title: 'Exito!',
+              text: 'Cambio de estado exitoso!',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
             recargar_tbody();
+          } else {
+            Swal.fire({
+              title: 'Fallo!',
+              text: 'No se pudo cambiar el estado!',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
           }
         }
       });
@@ -88,8 +100,20 @@ function recargar_tbody(){
         url: "usuarios/cambiar-password/" + id + "/" + password,
         success: function(respuesta) {
           if (respuesta == 1) {
-            alert("Cambio correcto!");
+            Swal.fire({
+              title: 'Exito!',
+              text: 'Cambio de Password exitoso!',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
             $("#frmPassword")[0].reset();
+          } else {
+            Swal.fire({
+              title: 'Fallo!',
+              text: 'No se pudo cambiar el Password!',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
           }
         }
         
@@ -106,24 +130,4 @@ function recargar_tbody(){
       });
     });
   </script>
-@endpush
-@push('scripts')
-    <script>
-      @if (session('success')) 
-        Swal.fire({
-          title: 'Exito!',
-          text: '{{session('success')}}',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        });
-      @endif
-      @if (session('error')) 
-        Swal.fire({
-          title: 'Exito!',
-          text: '{{session('success')}}',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        });
-      @endif
-    </script>
 @endpush

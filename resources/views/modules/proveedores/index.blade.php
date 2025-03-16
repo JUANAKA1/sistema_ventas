@@ -6,7 +6,7 @@
     
 <main id="main" class="main">
     <div class="pagetitle">
-      <h1>Categorias</h1>
+      <h1>Proveedores</h1>
     </div><!-- End Page Title -->
     
     <section class="section">
@@ -14,30 +14,41 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Administrar categorias</h5>
+              <h5 class="card-title">Administrar proveedores </h5>
               <p>
-                Administrar las categorias de nuestros productos.
+                Administrar los proveedores de nuestros productos.
               </p> 
               <!-- Table with stripped rows -->
-              <a href="{{route('categorias.create')}} " class="btn btn-primary" >
+              <a href="{{ route('proveedores.create') }}" class="btn btn-primary" >
                 <i class="fa-solid fa-circle-plus"></i>
-                Agregar nueva categoria</a>
+                Agregar nuevo proveedor</a>
               <hr>
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th>Nombre categoria</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Email</th>
+                    <th>CP</th>
+                    <th>Sitio Web</th>
+                    <th>Nota</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($items as $item)
+                      
                     <tr>
-                      <td>{{ $item->nombre}} </td>
+                      <td>{{$item->nombre}}</td>
+                      <td>{{$item->telefono}}</td>
+                      <td>{{$item->email}}</td>
+                      <td>{{$item->cp}}</td>
+                      <td>{{$item->sitio_web}}</td>
+                      <td>{{$item->notas}}</td>
                       <td>
-                        <a href="{{ route("categorias.edit", $item->id ) }}" class="btn btn-warning " > <i class="fa-solid fa-pen-to-square">
+                        <a href="{{ route('proveedores.edit', $item->id) }}" class="btn btn-warning " > <i class="fa-solid fa-pen-to-square">
                           </i> Editar</a>
-                        <a href="{{route('categorias.show', $item->id)}}" class="btn btn-danger " >
+                        <a href="{{ route('proveedores.show', $item->id) }}" class="btn btn-danger " >
                           <i class="fa-solid fa-trash-can"></i>  Eliminar</a>
                       </td>
                     </tr>
