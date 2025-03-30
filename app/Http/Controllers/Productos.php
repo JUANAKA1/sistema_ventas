@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\Imagen;
 use App\Models\Producto;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
@@ -19,10 +20,13 @@ class Productos extends Controller
         $items = Producto::select(
             'productos.*',
             'categorias.nombre as nombre_categoria',
-            'proveedores.nombre as nombre_proveedor'
+            'proveedores.nombre as nombre_proveedor',
+            'imagenes.ruta as imagen_producto',
+            'imagenes.id as imagen_id'
         )
             ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
             ->join('proveedores', 'productos.proveedor_id', '=', 'proveedores.id')
+            ->join('imagenes', 'productos.id', '=', 'imagenes.producto_id' )
             ->get();
         return view('modules.productos.index', compact('titulo', 'items'));
     }
@@ -51,10 +55,29 @@ class Productos extends Controller
             $item->nombre = $request->nombre;
             $item->descripcion = $request->descripcion;
             $item->save();
-            return to_route('productos')->with('success', 'Producto creado correctamente!!!');
+            $id_producto = $item->id;
+
+            if($id_producto > 0) {
+                if($this->subir_imagen($request, $id_producto)){
+                    return to_route('productos')->with('success', 'Producto creado correctamente!!!');
+                } else {
+                    return to_route('productos')->with('error', 'No se pudo subir la imagen del producto!!!');
+                }
+            }
         } catch (\Throwable $th) {
             return to_route('productos')->with('error', 'Error al crear el producto!!!' . $th->getMessage());
         }
+    }
+    public function subir_imagen($request, $id_producto)
+    {
+        $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
+        $nombreImagen = basename($rutaImagen);
+
+        $item = new Imagen();
+        $item->producto_id = $id_producto;
+        $item->nombre = $nombreImagen;
+        $item->ruta = $rutaImagen;
+        return $item->save();
     }
 
     /**

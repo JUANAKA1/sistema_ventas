@@ -43,11 +43,14 @@
                       <td>{{ $item->nombre_categoria }}</td>
                       <td>{{ $item->nombre_proveedor }}</td>
                       <td>{{ $item->nombre }}</td>
-                      <td>{{ $item->imagen }}</td>
+                      <td>
+                        <img src="{{ asset('storage/' .$item->imagen_producto) }}" alt="" width="100px" height="100px">
+                        <a href="{{ route('productos.show.image', $item->imagen_id)}}" class="badge rounded-pill text-bg-warning">Editar <i class="fa-solid fa-pen-to-square"></i></a>
+                      </td>
                       <td>{{ $item->descripcion }}</td>
                       <td>{{ $item->cantidad }}</td>
-                      <td>{{ $item->precio_venta }}</td>
-                      <td>{{ $item->precio_compra }}</td>
+                      <td>${{ $item->precio_venta }}</td>
+                      <td>${{ $item->precio_compra }}</td>
                       <td>
                         <div class="form-check form-switch">
                           <input type="checkbox" class="form-check-input" id="{{ $item->id }}" 
@@ -55,12 +58,12 @@
                         </div>
                       </td>
                       <td>
-                        <a href="#" class="btn btn-success " > <i class="fa-solid fa-cart-shopping"></i> Comprar</a>
+                        <a href="{{ route('compras.create', $item->id ) }}" class="btn btn-success mt-3 " > <i class="fa-solid fa-cart-shopping"></i> Comprar</a>
                       </td>
                       <td>
-                        <a href="{{ route('productos.edit', $item->id) }}" class="btn btn-warning " > <i class="fa-solid fa-pen-to-square">
+                        <a href="{{ route('productos.edit', $item->id) }}" class="btn btn-warning  mt-3" > <i class="fa-solid fa-pen-to-square">
                           </i> Editar</a>
-                        <a href="{{ route('productos.show', $item->id) }}" class="btn btn-danger " >
+                        <a href="{{ route('productos.show', $item->id) }}" class="btn btn-danger  mt-3" >
                           <i class="fa-solid fa-trash-can"></i>  Eliminar</a>
                       </td>
                     </tr>

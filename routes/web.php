@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Categorias;
+use App\Http\Controllers\Compras;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DetalleVentas;
 use App\Http\Controllers\Productos;
@@ -50,6 +51,10 @@ Route::prefix('productos')->middleware('auth')->group(function(){
     Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('productos.destroy');
     Route::get('/edit/{id}', [Productos::class, 'edit'])->name('productos.edit');
     Route::put('/update/{id}', [Productos::class, 'update'])->name('productos.update');
+
+    Route::get('/show-image/{id}', [Productos::class, 'show_image'])->name('productos.show.image');
+    Route::put('/update-image/{id}', [Productos::class, 'update_image'])->name('productos.update.image');
+
     Route::get('/cambiar-estado/{id}/{estado}', [Productos::class, 'estado'])->name('productos.estado');
 });
 
@@ -81,4 +86,13 @@ Route::prefix('usuarios')->middleware('auth')->group(function(){
     Route::get('/cambiar-estado/{id}/{estado}', [Usuarios::class, 'estado'])->name('usuarios.estado');
     Route::get('/cambiar-password/{id}/{password}', [Usuarios::class, 'cambio_password'])->name('usuarios.password');
 
+});
+Route::prefix('compras')->middleware('auth')->group(function(){
+    Route::get('/', [Compras::class, 'index'])->name('compras');
+    Route::get('/create/{id_producto}', [Compras::class, 'create'])->name('compras.create');
+    Route::post('/store', [Compras::class, 'store'])->name('compras.store');
+    Route::get('/edit/{id}', [Compras::class, 'edit'])->name('compras.edit');
+    Route::put('/update/{id}', [Compras::class, 'update'])->name('compras.update');
+    Route::get('/show/{id}', [Compras::class,'show'])->name('compras.show');
+    Route::delete('/destroy/{id}', [Compras::class, 'destroy'])->name('compras.destroy');
 });
