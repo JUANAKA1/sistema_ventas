@@ -6,7 +6,7 @@
     
 <main id="main" class="main">
     <div class="pagetitle">
-      <h1>Productos</h1>
+      <h1>Reportes de Productos</h1>
     </div><!-- End Page Title -->
     
     <section class="section">
@@ -14,10 +14,16 @@
         <div class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Administrar Productos y stock </h5>
+              <h5 class="card-title">Administrar Reportes de Productos</h5>
               <p>
-                Administrar stock del sistema.
+                Tipos de reportes del sistema para productos.
               </p> 
+              <div class="row">
+                <div class="col text-end">
+                  <a href="{{ route('reportes_productos.falta_stock') }}" class="btn btn-primary btn-sm">Productos con cantidad 1 o 0</a>
+                </div>
+              </div>
+              <hr>
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -38,11 +44,13 @@
                       <td>{{ $item->nombre_categoria }}</td>
                       <td>{{ $item->nombre_proveedor }}</td>
                       <td>{{ $item->nombre }}</td>
-                      <td>{{ $item->imagen }}</td>
+                      <td>
+                        <img src="{{ asset('storage/' .$item->imagen_producto) }}" alt="" width="100px" height="100px">
+                      </td>
                       <td>{{ $item->descripcion }}</td>
-                      <td>{{ $item->cantidad }}</td>
-                      <td>{{ $item->precio_venta }}</td>
-                      <td>{{ $item->precio_compra }}</td>
+                      <td class="text-center">{{ $item->cantidad }}</td>
+                      <td class="text-center">${{ $item->precio_venta }}</td>
+                      <td class="text-center"}>${{ $item->precio_compra }}</td>
                       
                     </tr>
                     @endforeach

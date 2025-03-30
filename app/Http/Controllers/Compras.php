@@ -64,7 +64,7 @@ class Compras extends Controller
      */
     public function show(string $id)
     {
-        $titulo = 'Eliminar compra';
+        $titulo = 'Compras';
         $items = Compra::select(
             'compras.*',
             'users.name as nombre_usuario',
@@ -106,8 +106,9 @@ class Compras extends Controller
             $cantidad_anterior = $item->cantidad;
             $item->cantidad = $request->cantidad;
             $item->precio_compra = $request->precio_compra;
+
             if ($item->save()) {
-                $item = Producto::find($request->id);
+                $item = Producto::find($request->producto_id);
                 $cantidad_anterior = $item->cantidad - $cantidad_anterior;
                 $item->cantidad = $cantidad_anterior + $request->cantidad;
                 $item->save();
@@ -127,7 +128,7 @@ class Compras extends Controller
             $item = Compra::find($id);
             $cantidad_compra = $item->cantidad;
             if ($item->delete()) {
-                $item = Producto::find($request->id);
+                $item = Producto::find($request->producto_id);
                 $item->cantidad = $item->cantidad - $cantidad_compra;
                 $item->save();
                 return to_route('compras')->with('success', 'Compra eliminada con éxito!');
