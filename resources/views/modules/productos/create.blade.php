@@ -31,6 +31,8 @@
                       <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                   @endforeach
                 </select>
+                <label for="codigo">Codigo</label>
+                <input type="text" class="form-control" name="codigo" id="codigo" required >
                 <label for="nombre">Nombre del producto</label>
                 <input type="text" class="form-control" name="nombre" id="nombre" required>
                 <label for="descripcion">Descripcion</label>

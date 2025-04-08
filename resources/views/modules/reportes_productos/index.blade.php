@@ -30,6 +30,7 @@
                   <tr>
                     <th>Categoria</th>
                     <th>Proveedor</th>
+                    <th>Codigo</th>
                     <th>Nombre</th>
                     <th>Imagen</th>
                     <th>Descripcion</th>
@@ -43,6 +44,7 @@
                     <tr>
                       <td>{{ $item->nombre_categoria }}</td>
                       <td>{{ $item->nombre_proveedor }}</td>
+                      <td>{{ $item->codigo }}</td>
                       <td>{{ $item->nombre }}</td>
                       <td>
                         <img src="{{ asset('storage/' .$item->imagen_producto) }}" alt="" width="100px" height="100px">
